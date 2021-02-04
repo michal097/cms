@@ -14,7 +14,7 @@ import java.util.Objects;
 @Service
 public class MailService {
 
-    private JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender;
 
     @Autowired
     public MailService(JavaMailSender javaMailSender) {
@@ -40,7 +40,6 @@ public class MailService {
         } catch (MessagingException ex) {
             ex.printStackTrace();
         }
-
         javaMailSender.send(msg);
     }
 }

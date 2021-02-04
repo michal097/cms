@@ -1,7 +1,6 @@
 package cms.demo.service;
 
 import cms.demo.model.Report;
-import lombok.Getter;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
