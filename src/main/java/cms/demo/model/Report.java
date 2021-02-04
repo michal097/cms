@@ -3,9 +3,13 @@ package cms.demo.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 public class Report {
+
+    private LocalDate generationDate;
 
     //sales
     private double total_sales;
@@ -25,8 +29,6 @@ public class Report {
     private int grouped;
     private int simple;
     private int variable;
-
-
 
 }
 

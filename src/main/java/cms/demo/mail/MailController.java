@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,7 +41,7 @@ public class MailController {
         pdfService.generatePdf(wpService.prepareReport());
         mailService.sendSimpleMail(email, subject, body);
 
-        return "sprawdz maila";
+        return "";
     }
 
     @GetMapping("addMeToCrone/{email}")
@@ -60,15 +59,19 @@ public class MailController {
     @GetMapping("removeFromCrone/{email}")
     public String removeMeFromCrone(@PathVariable String email){
 
-        Optional<MailModel> mail = mailRepo.findAll().stream().filter(e->e.getMailAdress().equals(email)).findAny();
+        Optional<MailModel> mail = mailRepo.findAll()
+                .stream()
+                .filter(e->e.getMailAdress().equals(email))
+                .findAny();
+
         mail.ifPresent(mailRepo::delete);
 
-        return "deleted from crone";
+        return "";
     }
 
 
     @Async
-    @Scheduled(cron = "0 29 22 * * *")
+    @Scheduled(cron = "0 0 9 * * *")
     public void setCron() throws Exception {
         System.out.println("hello crone!");
         pdfService.generatePdf(wpService.prepareReport());
