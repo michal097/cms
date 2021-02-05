@@ -4,6 +4,7 @@ import cms.demo.model.Report;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,14 +20,20 @@ public class WPService {
         return json.getJSONObject(index);
     }
 
+    private final String url;
+    private final String credentials;
+
+    public WPService(@Value("${wp.url}") String url,
+                     @Value("${wp.credentials}") String credentials){
+        this.url=url;
+        this.credentials=credentials;
+    }
+
     public Report prepareReport() throws IOException {
 
-        String credentials = "?consumer_key=ck_dc602a557a97e8f74f1d7a2567b7c4e897adf12f&consumer_secret=cs_aa56f79e25c7f8a1da2978947b41cb050cdffb17";
-        String prefix = "https://sklep.dan3k.pl/wp-json/wc/v3/reports";
-
-        String sales = prefix + "/sales" + credentials;
-        String orders = prefix + "/orders/totals" + credentials;
-        String products = prefix + "/products/totals" + credentials;
+        String sales = url + "/sales" + credentials;
+        String orders = url + "/orders/totals" + credentials;
+        String products = url + "/products/totals" + credentials;
 
         return Report.builder()
                 .net_sales(Double.parseDouble((String) getReport(sales, 0).get("net_sales")))

@@ -4,6 +4,7 @@ import cms.demo.model.MailModel;
 import cms.demo.pdf.PdfService;
 import cms.demo.repos.MailRepo;
 import cms.demo.service.WPService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,25 +34,28 @@ public class MailController {
         this.mailRepo = mailRepo;
     }
 
-    private final String body = "Raport w załączeniu";
-    private final String subject = "Raport sprzedazy";
+    @Value("${mail.body}")
+    private  String body;
+    @Value("${mail.subject}")
+    private String subject;
 
     @GetMapping("sendMail/{to}")
-    public String sendMailTo(@PathVariable("to") String email) throws Exception {
+    public String sendMailTo(@PathVariable("to") List<String> email) throws Exception {
         pdfService.generatePdf(wpService.prepareReport());
-        mailService.sendSimpleMail(email, subject, body);
-
+        for(String mail: email) {
+            mailService.sendSimpleMail(mail, subject, body);
+        }
         return "";
     }
 
     @GetMapping("addMeToCrone/{email}")
-    public String addMeToCrone(@PathVariable String email){
-        if(mailRepo.findAll()
-                .stream()
-                .map(MailModel::getMailAdress)
-                .noneMatch(mail -> mail.equals(email))) {
+    public String addMeToCrone(@PathVariable List<String> email){
+        for(String m : email) {
+            if (mailRepo.findAll().stream().map(MailModel::getMailAdress)
+                    .noneMatch(mail -> mail.equals(m))) {
 
-            mailRepo.save(new MailModel(email));
+                mailRepo.save(new MailModel(m));
+            }
         }
         return "";
     }
@@ -71,9 +75,9 @@ public class MailController {
 
 
     @Async
-    @Scheduled(cron = "0 0 9 * * *")
+    @Scheduled(cron = "0 49 18 * * *")
     public void setCron() throws Exception {
-        System.out.println("hello crone!");
+
         pdfService.generatePdf(wpService.prepareReport());
         List<String> retrieveAllEmails = mailRepo.findAll()
                 .stream()
@@ -83,5 +87,9 @@ public class MailController {
         for (String emails : retrieveAllEmails) {
             mailService.sendSimpleMail(emails, subject, body);
         }
+    }
+    @GetMapping("mails")
+    public List<MailModel> mails(){
+        return mailRepo.findAll();
     }
 }
