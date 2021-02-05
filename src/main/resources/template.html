@@ -1,35 +1,132 @@
 <!DOCTYPE html>
-<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <title>CMS REPORT</title>
 </head>
+<style>
+    @page {
+        size: 27cm 38cm;
+        margin: 0;
+    }
+    body{
+        top: 0;
+        left: 0;
+        margin: 0 0;
+        background: azure;
+    }
+    .reportTab {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
 
+    .reportTab td, .reportTab th {
+        border: 1px solid #000000;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .reportTab tr:nth-child(even){background-color: #c1dbff;}
+    .reportTab tr:nth-child(even) td {font-weight: bold}
+
+
+
+    .reportTab tr:hover {background-color: #ddd;}
+
+    .reportTab th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: center;
+        font-size: 20px;
+        background-color: #7dc5cf;
+        color: #000000;
+    }
+    .image{
+        padding-top: 0;
+    }
+</style>
 <body>
-<p style="font-size: 40px">GENERATION DATE: [[${data.getGenerationDate()}]]</p>
-<p style="font-size: 40px">Sales </p>
-<br>
-<p style="text-align:center">Net sales [[${data.getNet_sales()}]] </p>
-<p style="text-align:center">Total_sales [[${data.getTotal_sales()}]] </p>
-<p style="text-align:center">Total_orders [[${data.getTotal_orders()}]] </p>
-<p style="text-align:center">Total_items [[${data.getTotal_items()}]] </p>
-<br>
-<p style="font-size: 40px">Orders</p>
-<br>
-<p style="text-align:center">Pending [[${data.getPending()}]] </p>
-<p style="text-align:center">Processing [[${data.getProcessing()}]] </p>
-<p style="text-align:center">On hold [[${data.getOn_hold()}]] </p>
-<p style="text-align:center">Completed [[${data.getCompleted()}]] </p>
-<p style="text-align:center">Cancelled [[${data.getCancelled()}]] </p>
-<p style="text-align:center">Refunded [[${data.getRefunded()}]] </p>
-<p style="text-align:center">Failed [[${data.getFailed()}]] </p>
-<br>
-<p style="font-size: 40px">Products </p>
-<br>
-<p style="text-align:center">External product [[${data.getExternal()}]] </p>
-<p style="text-align:center">Grouped product [[${data.getGrouped()}]] </p>
-<p style="text-align:center">Simple product [[${data.getSimple()}]] </p>
-<p style="text-align:center">Product with variants [[${data.getVariable()}]] </p>
+<div class="image"><a href="https://imgbb.com/"><img src="https://i.ibb.co/Df3GrRS/cms-photo.png" alt="cms-photo"></a></div>
+<h1 style="text-align: center">Automatically generated report</h1>
+<p style="font-size: 25px">Generation date: [[${data.getGenerationDate()}]]</p>
+<table class="reportTab">
+    <tr>
+        <th colspan="4">Sales</th>
+    </tr>
+    <tr>
+        <td>Net sales</td>
+        <td>Total sales</td>
+        <td>Total orders</td>
+        <td>Total items</td>
+
+
+    </tr>
+    <tr>
+        <td>[[${data.getNet_sales()}]]</td>
+        <td>[[${data.getTotal_sales()}]]</td>
+        <td>[[${data.getTotal_orders()}]]</td>
+        <td>[[${data.getTotal_items()}]]</td>
+
+    </tr>
+
+
+</table>
+<br><br><br>
+<table class="reportTab">
+    <tr>
+        <th colspan="7">Orders</th>
+    </tr>
+    <tr>
+        <td>Pending</td>
+        <td>Processing</td>
+        <td>On hold</td>
+        <td>Completed</td>
+        <td>Cancelled</td>
+        <td>Refunded</td>
+        <td>Failed</td>
+
+
+    </tr>
+    <tr>
+        <td>[[${data.getPending()}]]</td>
+        <td>[[${data.getProcessing()}]]</td>
+        <td>[[${data.getOn_hold()}]]</td>
+        <td>[[${data.getCompleted()}]]</td>
+        <td>[[${data.getCancelled()}]]</td>
+        <td>[[${data.getRefunded()}]]</td>
+        <td>[[${data.getFailed()}]]</td>
+
+    </tr>
+
+
+</table>
+
+<br><br><br>
+
+<table class="reportTab">
+    <tr>
+        <th colspan="4">Products</th>
+    </tr>
+    <tr>
+        <td>External product </td>
+        <td>Grouped product</td>
+        <td>Simple product</td>
+        <td>Product with variants</td>
+
+
+    </tr>
+    <tr>
+        <td>[[${data.getExternal()}]]</td>
+        <td>[[${data.getGrouped()}]]</td>
+        <td>[[${data.getSimple()}]]</td>
+        <td>[[${data.getVariable()}]]</td>
+
+    </tr>
+
+
+</table>
+
+
 </body>
 </html>
